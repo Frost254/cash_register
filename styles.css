@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.items {
+    width: 60%;
+}
+
+.item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.cart {
+    width: 35%;
+    background-color: #e0e0e0;
+    padding: 20px;
+}
+
+.cart h2 {
+    margin-bottom: 10px;
+}
+
+.cart ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart li {
+    margin-bottom: 5px;
+}
+
+#pay-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#pay-btn:hover {
+    background-color: #45a049;
+}

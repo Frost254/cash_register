@@ -1,50 +1,78 @@
-const cashRegister = {
-  shopping_cart: [],
-  itemList: [
-    {name: "phone", price: 300},
-    {name: "SmartTv", price: 220},
-    {name: "GamingConsole", price: 150}
+const CashRegister = {
+  shoppingCart: [],
+  itemsForSale: [
+    { name: 'Phone', price: 300 },
+    { name: 'Smart TV', price: 220 },
+    { name: 'Gaming Console', price: 150 }
   ],
-  addItem: function(itemName) {
-    item = this.itemList.find(item => item.name === itemName);
-    if (item) {
-      this.shopping_cart.push(item);
-    }
-    else {
-      console.log("Sorry we don't have this item available")
-    }
-  },
-  calculateTotalPrice: function() {
-    let totalPrice = 0;
-    this.shopping_cart.forEach(item => {
-      totalPrice += item.price;
-    })
-    return totalPrice
-  },
-  pay: function(amount) {
-    let total = this.calculateTotalPrice();
-    if (total > 400) {
-      total *= 0.9;
-    }
-    else {
-      total = total;
-    }
-    if (total > amount) {
-      console.log("Sorry you don't have enough money, kindly add an additional " + (total - amount) + "$ to your account")
-    }
-    else if (total < amount) {
-      console.log("Thank you for your purchase!")
-      console.log("Your change is: " + (amount - total))
-    }
-    else {
-      console.log("Thank you for your purchase!")
-    }
-  }
-}
 
-cashRegister.addItem("phone");
-cashRegister.addItem("SmartTv");
-cashRegister.addItem("GamingConsole");
-console.log(cashRegister.shopping_cart)
-console.log(cashRegister.calculateTotalPrice())
-cashRegister.pay(500);
+  addItem(itemName) {
+    const item = this.itemsForSale.find(item => item.name === itemName);
+    if (item) {
+      this.shoppingCart.push(item);
+      this.updateCartDisplay();
+    } else {
+      console.log(`Sorry, we don't sell ${itemName}.`);
+    }
+  },
+
+  calculateTotalPrice() {
+    let totalPrice = 0;
+    this.shoppingCart.forEach(item => {
+      totalPrice += item.price;
+    });
+    return totalPrice;
+  },
+
+  applyDiscount(totalPrice) {
+    if (totalPrice > 400) {
+      return totalPrice * 0.9; // 10% discount
+    }
+    return totalPrice;
+  },
+
+  pay(paymentAmount) {
+    const totalPrice = this.calculateTotalPrice();
+    const discountedPrice = this.applyDiscount(totalPrice);
+
+    if (paymentAmount >= discountedPrice) {
+      const change = paymentAmount - discountedPrice;
+      console.log('Thank you for your purchase!');
+      if (change > 0) {
+        console.log(`Your change is $${change.toFixed(2)}.`);
+      }
+      this.shoppingCart = []; // Clear the shopping cart
+      this.updateCartDisplay();
+    } else {
+      console.log('Insufficient payment amount. Please provide enough money.');
+    }
+  },
+
+  updateCartDisplay() {
+    const cartItemsElement = document.getElementById('cart-items');
+    cartItemsElement.innerHTML = '';
+    this.shoppingCart.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.name}: $${item.price}`;
+      cartItemsElement.appendChild(li);
+    });
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.item');
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const itemName = item.textContent.trim();
+      CashRegister.addItem(itemName);
+    });
+  });
+
+  const payBtn = document.getElementById('pay-btn');
+  payBtn.addEventListener('click', () => {
+    const paymentAmount = prompt('Enter payment amount:');
+    if (paymentAmount) {
+      CashRegister.pay(parseFloat(paymentAmount));
+    }
+  });
+});
