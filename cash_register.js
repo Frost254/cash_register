@@ -12,7 +12,7 @@ const CashRegister = {
       this.shoppingCart.push(item);
       this.updateCartDisplay();
     } else {
-      console.log(`Sorry, we don't sell ${itemName}.`);
+      alert(`Sorry, we don't sell ${itemName}.`);
     }
   },
 
@@ -37,14 +37,14 @@ const CashRegister = {
 
     if (paymentAmount >= discountedPrice) {
       const change = paymentAmount - discountedPrice;
-      console.log('Thank you for your purchase!');
+      alert('Thank you for your purchase!');
       if (change > 0) {
-        console.log(`Your change is $${change.toFixed(2)}.`);
+        alert(`Your change is $${change.toFixed(2)}.`);
       }
       this.shoppingCart = []; // Clear the shopping cart
       this.updateCartDisplay();
     } else {
-      console.log('Insufficient payment amount. Please provide enough money.');
+      alert('Insufficient payment amount. Please provide enough money.');
     }
   },
 
